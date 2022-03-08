@@ -11,9 +11,7 @@ fetch('http://localhost:3000/api/products')
     console.log("erreur")
     // Une erreur est survenue
   });
-const products =[0] {
-  document.getElementById
-}
+const products = [0]
 
 for (let product of products) {
    console.log("");
