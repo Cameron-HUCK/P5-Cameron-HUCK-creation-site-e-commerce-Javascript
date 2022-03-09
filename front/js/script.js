@@ -1,5 +1,3 @@
-const productsList = document.getElementById("#item");
-
 fetch('http://localhost:3000/api/products')
   .then(function(res) {
     if (res.ok) {
@@ -11,14 +9,14 @@ fetch('http://localhost:3000/api/products')
 
 let products = value;
 
-for (let i = 0; i < products.length; i++) {
+  for (let i = 0; i < products.length; i++) {
 
-  for (let product in products) {
-    let productName = document.createElement('h3');
-    productName.classList.add("productName");
-    console.log(productName);
+    const productsList = document.getElementById('item');
 
-  }
+    let productsName = document.createElement('h3');
+    productsName.classList.add("productName");
+    productsName.textContent = products[i].name;
+    console.log(productsName)
 }
 
   })
