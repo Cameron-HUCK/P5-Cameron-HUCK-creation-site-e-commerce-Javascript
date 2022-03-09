@@ -1,4 +1,5 @@
-const productsList = document.querySelector("#item")
+const productsList = document.getElementById("#item");
+
 fetch('http://localhost:3000/api/products')
   .then(function(res) {
     if (res.ok) {
@@ -15,6 +16,8 @@ for (let i = 0; i < products.length; i++) {
   for (let product in products) {
     let productName = document.createElement('h3');
     productName.classList.add("productName");
+    console.log(productName);
+
   }
 }
 
