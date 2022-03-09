@@ -1,5 +1,4 @@
-const productsList = document.getElementById("item");
-
+const productsList = document.querySelector("#item")
 fetch('http://localhost:3000/api/products')
   .then(function(res) {
     if (res.ok) {
@@ -9,23 +8,19 @@ fetch('http://localhost:3000/api/products')
   .then(function(value) {
     console.log(value);
 
+let products = value;
+
 for (let i = 0; i < products.length; i++) {
 
-  let productLink = document.createElement("a");
-  productLink.setAttribut("href=",'/product.html?id=${products[i]._id}');
-  productsList.appendChild(productLink);
-
-  let productArticle = document.createElement("article");
-  productLink.appendChild(productArticle)
-
-  let productName = document.createElement("h3");
-  productName.classList.add("productName");
-  productName.textContent = products[i].name;
-  productArticle.appendChild(productName);
+  for (let product in products) {
+    let productName = document.createElement('h3');
+    productName.classList.add("productName");
+  }
 }
 
   })
   .catch(function(err) {
-    console.log("erreur")
+    console.log("erreur");
+    console.log(err);
     // Une erreur est survenue
   });
