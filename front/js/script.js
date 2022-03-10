@@ -17,7 +17,7 @@ let products = value;
 
 /* Lien produit qui conduit vers la page produit / Parent de la balise Article*/
   let productsLink = document.createElement("a");
-  productsLink.setAttribute("href", './product.html?id=${products-ID}');
+  productsLink.setAttribute("href", './product.html?id=${products[i]._id}');
   productsList.appendChild(productsLink);
   console.log(productsLink)
 
@@ -44,8 +44,8 @@ let products = value;
     productsDescription.textContent = products[i].description;
     productArticle.appendChild(productsDescription);
 
-    var str = "file:///Users/huckcameron/Documents/P5-HUCK-Cameron/front/html/index.html";
-    var url = new URL(str);
+    const url = new URL("http://localhost:3000/api/products");
+    const id = new URLSearchParams(window.location.search); 
     var name = url.searchParams.get("name");
     console.log(name);
   } 
