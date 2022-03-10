@@ -17,9 +17,10 @@ let products = value;
 
 /* Lien produit qui conduit vers la page produit / Parent de la balise Article*/
   let productsLink = document.createElement("a");
-  productsLink.setAttribute("href", './product.html?id=${products[i]._id}');
+  productsLink.setAttribute("href", 'product.html?id=42');
+  productsLink.setAttribute("id", products[i]._id);
   productsList.appendChild(productsLink);
-  console.log(productsLink)
+  console.log(productsLink);
 
 /* Creation de la Balise HTML Article / Parent de (img, h3 , p) */
   let productArticle = document.createElement("article");
@@ -43,11 +44,6 @@ let products = value;
     productsDescription.classList.add("productDescription");
     productsDescription.textContent = products[i].description;
     productArticle.appendChild(productsDescription);
-
-    const url = new URL("http://localhost:3000/api/products");
-    const id = new URLSearchParams(window.location.search); 
-    var name = url.searchParams.get("name");
-    console.log(name);
   } 
 })
   .catch(function(err) {
