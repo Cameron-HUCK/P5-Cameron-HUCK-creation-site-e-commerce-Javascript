@@ -17,7 +17,7 @@ let products = value;
 
 /* Lien produit qui conduit vers la page produit / Parent de la balise Article*/
   let productsLink = document.createElement("a");
-  productsLink.setAttribute("href", "./product.html?_id=${products[i]._id}");
+  productsLink.setAttribute("href", `./product.html?id=${products[i]._id}`);
   productsList.appendChild(productsLink);
   console.log(productsLink);
 
