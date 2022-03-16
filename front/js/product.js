@@ -1,27 +1,47 @@
-/* Recuperation de l"id de chaque produit par page*/
+/* Recuperation de l'url de la page */
 let urlString =  document.location.href;
-let urlObject =  new URL('file:///Users/huckcameron/Documents/P5-HUCK-Cameron/front/html/index.html');
-console.log(urlString);
+let urlObject =  new URL(urlString);
 
-var paramsString = ".searchParams&id=${products[i]._id}";
-var searchParams = new URLSearchParams (urlObject);
-console.log(searchParams)
+// Recuperation de l'ID produit //
+const productId = urlObject.searchParams.get('id');
 
-const id = searchParams.get("id");
-console.log(id);
-
-/* Appel de L'api */
-fetch('http://localhost:3000/api/products/')
+/* Recuperation des donnees du produit en provenance de l'API du productID */
+fetch(`http://localhost:3000/api/products/${productId}`)
   .then(function(res) {
     if (res.ok) {
       return res.json();
     }
   })
   .then(function(value) {
-    console.log(value);
+      let product = value;
+      console.log(product);
 
-let products = value;
+// Integrer / Injecter les donnees recuperees de l'API dans le HTML der la page //
 
-  for (let i = 0; i < products.length; i++) {
-  } 
+// Modifier l'image de la page avec l'image du produit //
+let imgId = document.getElementById('img-id');
+let imgOrigine = document.getElementsByClassName("item__img").src = product.imageUrl;
+console.log(imgId);
+console.log(imgOrigine);
+
+
+// Modifier le titre de la page avec le nom du produit
+let title = document.getElementById('title');
+title.textContent = product.name;
+console.log(title);
+
+// Modification du prix avec le bon prix de chaque produit
+let priceProduct = document.getElementById('price');
+priceProduct.textContent = product.price;
+console.log(price);
+
+//Modification de la description de chaque produit 
+let contentDesciprtion_Product = document.getElementById('description');
+contentDesciprtion_Product.textContent = product.description;
+console.log(contentDesciprtion_Product);
 })
+.catch(function(err) {
+    console.log("erreur");
+    console.log(err);
+    // Une erreur est survenue
+  });
