@@ -19,26 +19,32 @@ fetch(`http://localhost:3000/api/products/${productId}`)
 // Integrer / Injecter les donnees recuperees de l'API dans le HTML der la page //
 
 // Modifier l'image de la page avec l'image du produit //
-let imgId = document.getElementById('img-id');
-let imgOrigine = document.getElementsByClassName("item__img").src = product.imageUrl;
-console.log(imgId);
-console.log(imgOrigine);
-
+let imgId = document.getElementById ("img_origin");
+  imgId.setAttribute("src", product.imageUrl);
+  imgId.setAttribute("alt", product.altTxt);
 
 // Modifier le titre de la page avec le nom du produit
 let title = document.getElementById('title');
 title.textContent = product.name;
-console.log(title);
 
 // Modification du prix avec le bon prix de chaque produit
 let priceProduct = document.getElementById('price');
 priceProduct.textContent = product.price;
-console.log(price);
 
 //Modification de la description de chaque produit 
-let contentDesciprtion_Product = document.getElementById('description');
-contentDesciprtion_Product.textContent = product.description;
-console.log(contentDesciprtion_Product);
+let contentDescription_Product = document.getElementById('description');
+contentDescription_Product.textContent = product.description;
+
+// Modification des couleurs proposer de chaque produit en recuperant chaque couleur dans le tableau
+let colorsProduct = product.colors;
+let colors_Id = document.getElementById('colors');
+colorsProduct.forEach(function (element, key) {
+  colors_Id[key] = new Option(element,);
+});
+
+console.log(product);
+console.log(colorsProduct);
+
 })
 .catch(function(err) {
     console.log("erreur");
