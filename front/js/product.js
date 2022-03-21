@@ -14,7 +14,6 @@ fetch(`http://localhost:3000/api/products/${productId}`)
   })
   .then(function(value) {
       let product = value;
-      console.log(product);
 
 // Integrer / Injecter les donnees recuperees de l'API dans le HTML der la page //
 
@@ -40,10 +39,39 @@ let colorsProduct = product.colors;
 let colors_Id = document.getElementById('colors');
 colorsProduct.forEach(function (element, key) {
   colors_Id[key] = new Option(element,);
-});
 
-console.log(product);
-console.log(colorsProduct);
+// Au click sur le bouton "ajout panier ", je veux stocker dans un tableau, dans le localStorage, les informations du produit : _id, qty, color
+  
+//localStorage
+
+//Ecouter le bouton et empecher reactualisation de lampage au click
+let idCart = document.getElementById('addToCart');
+idCart.addEventListener('click', (event) => {
+  event.preventDefault();
+  console.log(idCart);
+})
+
+//Recuperation des informations sur la commande du produit.
+let qtyProduct = document.getElementById('quantity');
+let productToAdd = [];
+  productToAdd._id = productId;
+  productToAdd.qty = qtyProduct;
+  productToAdd.color = colors_Id;
+
+  let confirmWindow = () => {
+    if (window.confirm(productToAdd))
+    window.location.href = "../html/cart.html"
+  else{
+    window.location.href = "../html/index.html";
+  }
+  }
+  let cart = [];
+  cart.push(productToAdd);
+  localStorage.setItem("cart", cart);
+
+  console.log(confirmWindow);
+  console.log(cart);
+});
 
 })
 .catch(function(err) {
@@ -51,3 +79,5 @@ console.log(colorsProduct);
     console.log(err);
     // Une erreur est survenue
   });
+
+
