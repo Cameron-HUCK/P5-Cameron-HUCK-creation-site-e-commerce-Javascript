@@ -39,7 +39,7 @@ let colorsProduct = product.colors;
 let colors_Id = document.getElementById('colors');
 colorsProduct.forEach(function (element, key) {
   colors_Id[key] = new Option(element,);
-
+});
 // Au click sur le bouton "ajout panier ", je veux stocker dans un tableau, dans le localStorage, les informations du produit : _id, qty, color
   
 //localStorage
@@ -50,28 +50,28 @@ idCart.addEventListener('click', (event) => {
   event.preventDefault();
   console.log(idCart);
 })
-
 //Recuperation des informations sur la commande du produit.
 let qtyProduct = document.getElementById('quantity');
+
 let productToAdd = [];
   productToAdd._id = productId;
   productToAdd.qty = qtyProduct;
   productToAdd.color = colors_Id;
 
+  let cart = [];
+  cart.push(productToAdd);
+  localStorage.setItem("cart", cart);
+
   let confirmWindow = () => {
-    if (window.confirm(productToAdd))
+    if (idCart.confirm(productToAdd))
     window.location.href = "../html/cart.html"
   else{
     window.location.href = "../html/index.html";
   }
   }
-  let cart = [];
-  cart.push(productToAdd);
-  localStorage.setItem("cart", cart);
 
   console.log(confirmWindow);
   console.log(cart);
-});
 
 })
 .catch(function(err) {
