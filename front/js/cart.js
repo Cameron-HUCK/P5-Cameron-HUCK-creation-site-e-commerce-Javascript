@@ -1,21 +1,20 @@
 // Recuperation des elements du panier
-let cartStorage = JSON.parse(localStorage.getItem("cart"));
+let cartFromStorage = localStorage.getItem("cart");
 
 // Si le panier est vide
-if (cartStorage == null){
-
-  // Il faut creer un tableau qui recoit les produits
+if (cartFromStorage == null){
+// Il faut creer un tableau qui recoit les produits
   cartStorage = [];
-//envoie l'objet dans le tableau
-  cartStorage.push(cart);
-  localStorage.setItem("cart", JSON.stringify(cartStorage));
-} 
-console.log(panierProduct);
-console.log(typeof(panierProduct));
+}
+else{
+  cartStorage = JSON.parse(cartFromStorage);
+}
+console.log(cartFromStorage);
+console.log(typeof(cartStorage));
 
 //Traitement des cas possibles de PanierProduit et remplissages de <section id="cart__items">
 
-/*if (panierProduct == null || panierProduct == 0) {
+if (cartFromStorage == null || cartFromStorage == 0) {
   let messagePanierVide = document.getElementById("cart__items");
   messagePanierVide.insertAdjacentHTML('afterend',
   '<div class="cart__item__img">',
@@ -25,7 +24,7 @@ console.log(typeof(panierProduct));
   console.log(messagePanierVide)
 }else{
   // Si le panier n'est pas vide 
-  for(i=0; i < panierProduct.lenght; i++);
+  for(i=0; i < cartFromStorage.lenght; i++);
 
 let insertProduct = document.getElementById('cart__idems');
 insertProduct.insertAdjacentHTML("afterend",
@@ -51,4 +50,4 @@ insertProduct.insertAdjacentHTML("afterend",
                 </div>,
               </article>`
               );
-}*/
+}
