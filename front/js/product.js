@@ -47,7 +47,7 @@ colorsProduct.forEach(function (element, key) {
 //Permet de voir ce que contient 'cart'
 console.log(JSON.parse(localStorage.getItem("cart")));
 
-//Ecouter le bouton et empecher reactualisation de lampage au click
+//Ecouter le bouton et empecher reactualisation de la page au click
 let idCart = document.getElementById('addToCart');
 idCart.addEventListener('click', (event) => {
   event.preventDefault();
