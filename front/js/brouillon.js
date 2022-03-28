@@ -83,3 +83,30 @@ async function addCart() {
              `;
     }
   }*/
+  /*// Recuperation des objet dans le local Storage
+let cartStorage = JSON.parse(localStorage.getItem("cart"));
+
+console.log(cartStorage);
+console.log(typeof(cartStorage));
+  //Si le panier est vide
+if (cartStorage == null){
+  // Il faut creer un tableau qui recoit les produits
+cartStorage = [];
+}
+else{
+
+}
+//Traitement des cas possibles de PanierProduit et remplissages de <section id="cart__items">
+
+if (cartStorage == null || cartStorage == 0) {
+  let messagePanierVide = document.getElementById("cart__items");
+  messagePanierVide.insertAdjacentHTML('afterend',
+  '<div class="cart__item__img">',
+      '<p> Votre panier ne comporte actuellement aucun produit </p>',
+  '</div>'
+  );
+  console.log(messagePanierVide)
+}else{
+  // Si le panier n'est pas vide 
+  for(i=0; i < cartFromStorage.lenght; i++);
+}*/
