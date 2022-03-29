@@ -1,27 +1,57 @@
 // Recuperation des objet dans le local Storage
-let cartStorage = JSON.parse(localStorage.getItem("cart"));
+let cart = [];
+let cartJsonLocalStorage = localStorage.getItem("cart");
 
-  //Si le panier est vide
-if (cartStorage == null){
-  // Il faut creer un tableau qui recoit les produits
-cartStorage = [];
+// Si le panier n'est pas vide
+if(cartJsonLocalStorage != null) {
+	cart = JSON.parse(cartJsonLocalStorage);
 }
-else{
-  localStorage.setItem('carte', JSON.stringify(cartStorage));
-}
+// Quand j'arrive ici, j'ai forcement un tableau dans ma variable cart (vide ou non)
+console.log(cart);
 
-//Traitement des cas possibles de PanierProduit et remplissages de <section id="cart__items">
+//je recupere l'element HTML qui contiendra mes produits 
 let cartItems = document.getElementById("cart__items");
 
-// Si le panier est vide.
+// On veut creer les produits dans le page panier
+for (i = 0; i < cart.length; i++) {
+
+  let productCourant = cart[i];
+
+
+//Creation de la structure HTML des produits du LocalStorage
+  
+// Creation de la Balise Article et affiliation a son parent "cart__items"
+let dataProductArticle = document.createElement("article");
+  dataProductArticle.setAttribute("class", 'cart__item')
+  dataProductArticle.setAttribute("data-id", `${productCourant._id}`);
+  dataProductArticle.setAttribute("data-color", `${productCourant.color}`);
+  dataProductArticle.appendChild(cartItems);
+    console.log(dataProductArticle);
+
+// Creation de la Balise <div class="cart__item__img"> parent de la la balise <img> et affiliation a son parent "article"
+let imageDiv = document.createElement("div");
+  imageDiv.setAttribute("class", 'cart__item__img');
+  imageDiv.appendChild(dataProductArticle);
+  console.log(imageDiv);
+}
+
+
+
+
+
+
+
+
+
+/* Si le panier est vide.
 if (cartStorage  == null || cartStorage  == 0) {
   cartItems.insertAdjacentHTML('afterend',
   '<div class="cart__item__img">',
       '<p> Votre panier ne comporte actuellement aucun produit </p>',
   '</div>'
-  );
+  );*/
 
-}else{
+/*}else{
   // Si le panier n'est pas vide 
 
   for(i=0; i < cartStorage.lenght; i++);
@@ -52,4 +82,4 @@ if (cartStorage  == null || cartStorage  == 0) {
 }
 console.log(cartStorage);
 console.log(typeof(cartStorage));
-console.log(cartItems.insertAdjacentHTML);
+console.log(cartItems.insertAdjacentHTML);*/
