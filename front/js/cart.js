@@ -9,33 +9,122 @@ if(cartJsonLocalStorage != null) {
 // Quand j'arrive ici, j'ai forcement un tableau dans ma variable cart (vide ou non)
 console.log(cart);
 
-//je recupere l'element HTML qui contiendra mes produits 
-let cartItems = document.getElementById("cart__items");
+// Fetch pour recuperer ce qu'il y a pas dans le LocalStorage (img, nom du produit etc)
+fetch(`http://localhost:3000/api/products`)
+  .then(function(res) {
+    if (res.ok) {
+      return res.json();
+    }
+  })
+  .then(function(value) {
+      let product = value;
 
-// On veut creer les produits dans le page panier
-for (i = 0; i < cart.length; i++) {
+  //je recupere l'element HTML qui contiendra mes produits(<section> ID Parent)
+  let cartItems = document.getElementById("cart__items");
 
-  let productCourant = cart[i];
+  // On veut creer les produits dans le page panier
+  for (i = 0; i < cart.length; i++) {
 
+    let productCourant = cart[i];
 
-//Creation de la structure HTML des produits du LocalStorage
-  
-// Creation de la Balise Article et affiliation a son parent "cart__items"
-let dataProductArticle = document.createElement("article");
-  dataProductArticle.setAttribute("class", 'cart__item')
-  dataProductArticle.setAttribute("data-id", `${productCourant._id}`);
-  dataProductArticle.setAttribute("data-color", `${productCourant.color}`);
-  dataProductArticle.appendChild(cartItems);
-    console.log(dataProductArticle);
+    //Creation de la structure HTML des produits du LocalStorage
+      
+    // Creation de la Balise Article et affiliation a son parent "cart__items"(<article> )
+    let dataProductArticle = document.createElement("article");
+      // Affiliation d'une classe a article
+      dataProductArticle.classList.add('cart__item')
+      dataProductArticle.setAttribute("data-id", `${productCourant._id}`);
+      dataProductArticle.setAttribute("data-color", `${productCourant.color}`);
+      cartItems.appendChild(dataProductArticle);
+        console.log(dataProductArticle);
 
-// Creation de la Balise <div class="cart__item__img"> parent de la la balise <img> et affiliation a son parent "article"
-let imageDiv = document.createElement("div");
-  imageDiv.setAttribute("class", 'cart__item__img');
-  imageDiv.appendChild(dataProductArticle);
-  console.log(imageDiv);
-}
+      // Creation de la Balise <div class="cart__item__img"> parent de la la balise <img> et affiliation a son parent "article"
+      let imageDiv = document.createElement("div");
+        imageDiv.classList.add('cart__item__img');
+        dataProductArticle.appendChild(imageDiv);
+        console.log(imageDiv);
 
+        // Creation de la Balise <img> enfant de la <div class="cart__item__img">   
+        let imagePanier = document.createElement("img");
+        imagePanier.setAttribute("src" ,cart[i].imageUrl);
+        imagePanier.setAttribute("alt", cart[i].altTxt);
+        imageDiv.appendChild(imagePanier);
+          console.log(imagePanier);
 
+// PARTIE NOM PRODUIT / COULEUR / PRIX
+
+      // Creation de la <div class="cart__item__content">, Parent contenant les informations de la commande des produits du panier
+      let divContent = document.createElement('div');
+      divContent.classList.add('cart__item__content');
+      dataProductArticle.appendChild(divContent);
+        console.log(divContent);
+        
+        //Creation de la  <div class = "cart__item__content__description"> (parent de la description) qui contient le NOM, couleur et prix du produit
+        let divContentDescription = document.createElement('div');
+        divContentDescription.classList.add('cart__item__content__description');
+        divContent.appendChild(divContentDescription);
+          console.log(divContent);
+          
+          // Creation du H2(nom du produit)
+          let titleNameProduct = document.createElement ('h2');
+          titleNameProduct.textContent = product[i].name;
+          divContentDescription.appendChild(titleNameProduct);
+            console.log(titleNameProduct);
+
+          // <p> (couleur)
+          let colorsCartProduct = document.createElement("p");
+          colorsCartProduct.textContent = `${productCourant.color}`;
+          divContentDescription.appendChild(colorsCartProduct);
+
+          // <p> (price)
+          let priceCartProduct = document.createElement("p");
+          priceCartProduct.textContent = `${product[i].price}€`;
+          divContentDescription.appendChild(priceCartProduct);
+
+// PARTIE QUANTITER 
+      // Creation de la <div class = "cart__item__content__settings">(Parent 1)
+      let divContentSettings = document.createElement('div');
+      divContentSettings.classList.add('cart__item__content__settings');
+      dataProductArticle.appendChild(divContentSettings);
+        console.log(divContentSettings);
+
+        // Creation de la <div class = "cart__item__content__settings__quantity">(Parent <p>QTY :</p> et notre input )
+        let divContentQuantity = document.createElement('div');
+        divContentQuantity.classList.add('cart__item__content__settings__quantity');
+        divContentSettings.appendChild(divContentQuantity);
+          console.log(divContentQuantity);
+
+          //Creation de la balise <p>Qté : </p>
+          let QtyCart = document.createElement('p');
+          QtyCart.textContent = "Qté : "
+          divContentQuantity.appendChild(QtyCart);
+            console.log(QtyCart);
+
+          //Creation de l'input qui contient la quntite du produit chosiie dans la commande qui ce situe dans le locale storage
+          let inputQuantity = document.createElement('input');
+          inputQuantity.setAttribute('type', "number");// type = "number"
+          inputQuantity.classList.add('itemQuantity');// affiliation de la class "itemQuantity"
+          inputQuantity.setAttribute('name', "itemQuantity");// name = "itemQuantity"
+          inputQuantity.setAttribute('min', "1");
+          inputQuantity.setAttribute('max', "100");
+          inputQuantity.setAttribute('value', `${productCourant.qty}`);
+          divContentQuantity.appendChild(inputQuantity);
+            console.log(inputQuantity);
+          
+        // Creation de la <div class="cart__item__content__settings__delete"> (Bouton supprimer)
+        let cartContentDelete = document.createElement('div');
+        cartContentDelete.classList.add("cart__item__content__settings__delete");
+        divContentSettings.appendChild(cartContentDelete);
+          console.log(cartContentDelete);
+
+          // Creation de la balise <p class="deleteItem"> 'Supprimer'
+          let deleteProduct = document.createElement('p');
+          deleteProduct.classList.add('deleteItem');
+          deleteProduct.textContent = "Supprimer";
+          cartContentDelete.appendChild(deleteProduct);
+            console.log(deleteProduct);
+  }
+})
 
 
 

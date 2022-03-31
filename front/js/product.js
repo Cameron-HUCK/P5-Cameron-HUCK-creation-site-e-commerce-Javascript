@@ -77,7 +77,6 @@ let productToAdd = {};
   else (productId && [colors_Select.value]); {
     qtyProduct.value++;
   }
-
   cart.push(productToAdd);
   localStorage.setItem("cart", JSON.stringify(cart));
   console.log(cart);
