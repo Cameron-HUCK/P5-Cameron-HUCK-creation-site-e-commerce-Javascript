@@ -53,14 +53,15 @@ idCart.addEventListener('click', (event) => {
   event.preventDefault();
 
 //Fonction message de confirmation pour l'ajout du produit au panier
-const ajoutConfirmer = () => {
+/*const ajoutConfirmer = () => {
   if(window.confirm(`${productId} option: ${colorsProduct} a bien ete ajoute au panier
   Consultez le panier OK ou revenir a l'acceuil ANNULER`)){
     window.location.href = "panier.html"
   }else{
     window.location.href = "index.html";
   }
-}
+}*/
+
 //Recuperation des informations sur la commande du produit.
 let qtyProduct = document.getElementById('quantity');
 
