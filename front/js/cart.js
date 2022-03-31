@@ -17,15 +17,8 @@ console.log(cart);
 
     let productCourant = cart[i];
 
-        /* Recuperation de l'url de la page */
-    let urlString =  document.location.href;
-    let urlObject =  new URL(urlString);
-
-    // Recuperation de l'ID produit //
-    const productId = urlObject.searchParams.get('id');
-
     // Fetch pour recuperer ce qu'il y a pas dans le LocalStorage (img, nom du produit etc)
-    fetch(`http://localhost:3000/api/products/${productId}`)
+    fetch(`http://localhost:3000/api/products/${productCourant}`)
 
     .then(function(res) {
       if (res.ok) {
@@ -54,8 +47,8 @@ console.log(cart);
 
         // Creation de la Balise <img> enfant de la <div class="cart__item__img">   
         let imagePanier = document.createElement("img");
-        imagePanier.setAttribute("src" ,product[i].imageUrl);
-        imagePanier.setAttribute("alt", product[i].altTxt);
+        imagePanier.setAttribute("src" ,`${productCourant.imageUrl}`);
+        imagePanier.setAttribute("alt", `${productCourant.altTxt}`);
         imageDiv.appendChild(imagePanier);
          
 
@@ -75,7 +68,7 @@ console.log(cart);
           
           // Creation du H2(nom du produit)
           let titleNameProduct = document.createElement ('h2');
-          titleNameProduct.textContent = product[i].name;
+          titleNameProduct.textContent = `${productCourant.name}`;
           divContentDescription.appendChild(titleNameProduct);
            
 
@@ -86,7 +79,7 @@ console.log(cart);
 
           // <p> (price)
           let priceCartProduct = document.createElement("p");
-          priceCartProduct.textContent = `${product[i].price}€`;
+          priceCartProduct.textContent = `${productCourant.price}€`;
           divContentDescription.appendChild(priceCartProduct);
 
 // PARTIE QUANTITER 
@@ -135,49 +128,3 @@ console.log(cart);
          // Supprimation des articles avec le buttons Supprimer
   })
     }
-
-
-
-
-
-
-/* Si le panier est vide.
-if (cartStorage  == null || cartStorage  == 0) {
-  cartItems.insertAdjacentHTML('afterend',
-  '<div class="cart__item__img">',
-      '<p> Votre panier ne comporte actuellement aucun produit </p>',
-  '</div>'
-  );*/
-
-/*}else{
-  // Si le panier n'est pas vide 
-
-  for(i=0; i < cartStorage.lenght; i++);
-  
-  cartItems.insertAdjacentHTML("afterend",
-`<article class="cart__item" data-id="${cartStorage[i]._id}" data-color="${cartStorage[i].colors}">
-                <div class="cart__item__img">
-                  <img src="${cartStorage[i].imageUrl}" alt="${cartStorage[i].altTxt}">
-                </div>
-                <div class="cart__item__content">
-                  <div class="cart__item__content__description">
-                    <h2>${cartStorage[i].name}</h2>
-                    <p>${cartStorage[i].colors}</p>
-                    <p>${cartStorage[i].price}</p>
-                  </div>
-                  <div class="cart__item__content__settings">
-                    <div class="cart__item__content__settings__quantity">
-                      <p>Qté : </p>
-                      <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${cartStorage[i].value}">
-                    </div>
-                    <div class="cart__item__content__settings__delete">
-                      <p class="deleteItem">Supprimer</p>
-                    </div>
-                  </div>
-                </div>
-              </article>`
-              );
-}
-console.log(cartStorage);
-console.log(typeof(cartStorage));
-console.log(cartItems.insertAdjacentHTML);*/
