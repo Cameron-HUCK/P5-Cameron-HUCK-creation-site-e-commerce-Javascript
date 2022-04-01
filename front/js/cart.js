@@ -26,8 +26,14 @@ console.log(cart);
         })
       .then(function(value) {
       let product = value;
-      productCourant.value = product.value;
+      // Je transmet ce qui a dans l'api (product) a mon localStorage (productCourant)
+      productCourant.name = product.name;
+      productCourant.price = product.price;
+      productCourant.imageUrl = product.imageUrl;
+      productCourant.altTxt = product.altTxt;
       })
+      console.log("productCourant" , productCourant);
+
         //Creation de la structure HTML des produits du panier
           
         // Creation de la Balise Article et affiliation a son parent "cart__items"(<article> )
@@ -129,7 +135,7 @@ console.log(cart);
                 
             // Supprimation des articles avec le buttons Supprimer
             let btn_supprimer = document.querySelectorAll(".deleteItem");
-            console.log(btn_supprimer);
+            
 
             for (let l = 0; l < btn_supprimer.length; l++) {
 
@@ -138,6 +144,6 @@ console.log(cart);
                 
                 // Selection de l'id du produit qui va etre supprimer en cliquant sur le bouton
                 let id_Delete_Product = `${productCourant._id}`;
-                console.log(id_Delete_Product);
+              
               })}
               }
