@@ -6,8 +6,8 @@ let cartJsonLocalStorage = localStorage.getItem("cart");
   if(cartJsonLocalStorage != null) {
     cart = JSON.parse(cartJsonLocalStorage);
   }
-// Quand j'arrive ici, j'ai forcement un tableau dans ma variable cart (vide ou non)
-console.log(cart);
+  // Quand j'arrive ici, j'ai forcement un tableau dans ma variable cart (vide ou non)
+    console.log(cart);
 
     //je recupere l'element HTML qui contiendra mes produits(<section> ID Parent)
     let cartItems = document.getElementById("cart__items");
@@ -16,8 +16,9 @@ console.log(cart);
     for (i = 0; i < cart.length; i++) {
     
     let productCourant = cart[i];
+    
         // Fetch pour recuperer (img, nom du produit etc ) ce qu'il y a pas dans le LocalStorage
-      fetch(`http://localhost:3000/api/products/${productCourant._id}`)
+      fetch(`http://localhost:3000/api/products/${cart[i]._id}`)
         
       .then(function(res) {
         if (res.ok) {
@@ -25,7 +26,8 @@ console.log(cart);
         }
         })
       .then(function(value) {
-      let product = value;
+        let product = value;
+
       // Je transmet ce qui a dans l'api (product) a mon localStorage (productCourant)
       productCourant.name = product.name;
       productCourant.price = product.price;
@@ -145,5 +147,6 @@ console.log(cart);
                 // Selection de l'id du produit qui va etre supprimer en cliquant sur le bouton
                 let id_Delete_Product = `${productCourant._id}`;
               
-              })}
-              }
+              })
+            }
+          }
