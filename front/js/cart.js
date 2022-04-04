@@ -131,12 +131,12 @@ for(const myProductId in cart) {
           console.log(btn_supprimer);
 
           // Selection de l'id du produit qui va etre supprimer en cliquant sur le bouton
-          let id_Delete_Product =  productLocalStorage._id;
-          console.log(productLocalStorage._id);
+          let id_Delete_Product =  myProductId[l];
+          console.log(id_Delete_Product);
 
           // avec la methode filter je selectionne les elements et je supprime l'element ou le btn a ete cliquer
-          productLocalStorage = productLocalStorage[l].filter(el => el._id != id_Delete_Product);
-          console.log(productLocalStorage);
+          myProductId = [myProductId].filter(el => el._id != id_Delete_Product);
+          console.log(myProductId);
         });
     }
 	});
