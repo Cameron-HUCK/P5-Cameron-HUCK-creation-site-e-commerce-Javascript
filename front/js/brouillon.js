@@ -1,112 +1,34 @@
-//Traitement des cas possibles de PanierProduit et remplissages de <section id="cart__items">
+//########################################################################################################## BOUTON SUPPRIMER
+ 
+      // Supprimation des articles avec le buttons Supprimer
+      let btn_supprimer = document.querySelectorAll(".deleteItem");
+      for (let l = 0; l < btn_supprimer.length; l++) {
+        btn_supprimer[l].addEventListener('click', (event) => {
+          event.preventDefault();
+          console.log(btn_supprimer);
 
-/*if (cart == null || cart == 0) {
-  let messagePanierVide = document.getElementById("cart__items");
-  messagePanierVide.insertAdjacentHTML('afterend',
-  '<div class="cart__item__img">',
-      '<p> Votre panier ne comporte actuellement aucun produit </p>',
-  '</div>'
-  );
-  console.log(messagePanierVide)
-}else{
-  // Si le panier n'est pas vide 
-  for(i=0; i < cartFromStorage.lenght; i++);
+          // Selection de l'id du produit qui va etre supprimer en cliquant sur le bouton
+          let id_Delete_Product =  productLocalStorage[l]._id;
+          console.log(id_Delete_Product);
 
-insertProduct.insertAdjacentHTML("afterend",
-`<article class="cart__item" data-id="${panierProduct[i]._id}" data-color="${panierProduct[i].colors}">,
-                '<div class="cart__item__img">',
-                  <img src="${panierProduct.imageUrl}" alt="${panierProduct.altTxt}">,
-                </div>,
-                <div class="cart__item__content">,
-                  <div class="cart__item__content__description">,
-                    <h2>Nom du produit</h2>,
-                    <p>Vert</p>,
-                    <p>42,00 €</p>,
-                  </div>,
-                  <div class="cart__item__content__settings">,
-                    <div class="cart__item__content__settings__quantity">,
-                      <p>Qté : </p>,
-                      <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${panierProduct.qty}">,
-                    </div>,
-                    <div class="cart__item__content__settings__delete">,
-                      <p class="deleteItem">Supprimer</p>,
-                    </div>,
-                  </div>,
-                </div>,
-              </article>`
-              );
-
-
-              /* Fonction d'ajout de nouveaux produits 
-async function addCart() {
-
-    /* Appel de la fonction getProductsInfos */
-    await getProductsInfos();
-  
-    /* Pointage vers l'élément cart__items 
-    let cartItems = document.getElementById("cart__items");
-  
-    /* Si le panier contient quelque chose on montre son contenu à l'utilisateur */
-    /* Création d'une boucle permettant d'afficher la totalité des produits sur la page panier 
-    for (i = 0; i < cartStorage.length; i++) {
-  
-      /* Récupération des produits concernés via l'API 
-      let product = product.find(x => x._id == cartStorage[i]._id);
-  
-      /* log console des produits affichés via l'API 
-      console.log("API Item Used:", product);
-  
-      /* Template Article 
-      cartItems.innerHTML += `
-             <article class="cart__item" data-id="${cartStorage [i]._id}" data-color="${cartStorage [i].color}">
-                 <div class="cart__item__img">
-                   <img src="${product.imageUrl}" alt="${product.altTxt}">
-                 </div>
-                 <div class="cart__item__content">
-                   <div class="cart__item__content__description">
-                     <h2>${product.name}</h2>
-                     <p>${cartStorage [i].color}</p>
-                     <p>${product.price} €</p>
-                   </div>
-                   <div class="cart__item__content__settings">
-                     <div class="cart__item__content__settings__quantity">
-                       <label for="itemQuantity">Qté: </label>
-                       <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${cartStorage[i].quantity}">
-                       <p class="messageQuantity"></p>
-                     </div>
-                     <div class="cart__item__content__settings__delete">
-                       <p class="deleteItem">Supprimer</p>
-                     </div>
-                   </div>
-                 </div>
-               </article>
-             `;
+          // avec la methode filter je selectionne les elements et je supprime l'element ou le btn a ete cliquer
+          //productLocalStorage = productLocalStorage.filter(el => el._id != id_Delete_Product);
+          //console.log(productLocalStorage);
+        });
     }
-  }*/
-  /*// Recuperation des objet dans le local Storage
-let cartStorage = JSON.parse(localStorage.getItem("cart"));
+    //########################################################################################################## Modification de la quantiter
+        // Nous selectionnons la classe 'itemQuantity' qui contient le bouton 
+        let change_Quantity = document.getElementsByClassName('itemQuantity');
+        for (let l = 0; l < change_Quantity.length; l++) {
+        // Creation du bouton pour changer la quantiter
+            change_Quantity[l].addEventListener('click', (event) => {
+              event.preventDefault();
+              console.log(change_Quantity);
 
-console.log(cartStorage);
-console.log(typeof(cartStorage));
-  //Si le panier est vide
-if (cartStorage == null){
-  // Il faut creer un tableau qui recoit les produits
-cartStorage = [];
-}
-else{
+        // Selection du produit qui change de quantiter
+        var changeProduct = productLocalStorage[l]._id
+        changeProduct = changeProduct.closest(change_Quantity);
+        console.log(changeProduct);
 
-}
-//Traitement des cas possibles de PanierProduit et remplissages de <section id="cart__items">
-
-if (cartStorage == null || cartStorage == 0) {
-  let messagePanierVide = document.getElementById("cart__items");
-  messagePanierVide.insertAdjacentHTML('afterend',
-  '<div class="cart__item__img">',
-      '<p> Votre panier ne comporte actuellement aucun produit </p>',
-  '</div>'
-  );
-  console.log(messagePanierVide)
-}else{
-  // Si le panier n'est pas vide 
-  for(i=0; i < cartFromStorage.lenght; i++);
-}*/
+        })
+      }
