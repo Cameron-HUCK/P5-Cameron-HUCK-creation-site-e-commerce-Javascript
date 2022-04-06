@@ -109,6 +109,16 @@ for(const myProductId in cart) {
 		inputQuantity.setAttribute('max', "100");
 		inputQuantity.setAttribute('value', `${productLocalStorage.qty}`);
 		divContentQuantity.appendChild(inputQuantity);
+		// Modificaton de la quantité du produit
+    inputQuantity.addEventListener("input", (event) => {
+      console.log(inputQuantity.value);
+      // On change le quantite du produit courant
+      cart[myProductId].qty = inputQuantity.value;
+      // On ecrase le panier du LocalStorage  avec notre panier modifie
+      localStorage.setItem("cart", JSON.stringify(cart));
+      //on rafraichit la page (pour actualiser la liste des produits et le total)
+      window.location.reload();
+    });
 
 		// Creation de la <div class="cart__item__content__settings__delete"> (Bouton supprimer)
 		let cartContentDelete = document.createElement('div');
@@ -120,27 +130,33 @@ for(const myProductId in cart) {
 		deleteProduct.classList.add('deleteItem');
 		deleteProduct.textContent = "Supprimer";
 		cartContentDelete.appendChild(deleteProduct);
+    //Supression des articles avec le buttons Supprimer
+    deleteProduct.addEventListener('click', (event) => {
+      event.preventDefault();
+      //on supprime le produit du LocalStorage
+      delete cart[myProductId];
+      // On ecrase la panier du LocalStorage avec notre panier modifier
+      localStorage.setItem("cart", JSON.stringify(cart));
+      // On rafraichit la page (pour actualiser la liste des produits et le total)
+      window.location.reload();
+    });
 
-//########################################################################################################## BOUTON SUPPRIMER
- 
-      // Supprimation des articles avec le buttons Supprimer
-      let btn_supprimer = document.querySelectorAll(".deleteItem");
-      for (let l = 0; l < btn_supprimer.length; l++) {
-        btn_supprimer[l].addEventListener('click', (event) => {
-          event.preventDefault();
-          console.log(btn_supprimer);
+    // RECUPERATIONS DE L'ID, TOTAL QUANTITER
+    let productQuantity = document.getElementsByClassName('itemQuantity');
+    let total_Quantity = 0;
 
-          // Selection de l'id du produit qui va etre supprimer en cliquant sur le bouton
-          let id_Delete_Product =  myProductId[l];
-          console.log(id_Delete_Product);
-
-          // avec la methode filter je selectionne les elements et je supprime l'element ou le btn a ete cliquer
-          myProductId = [myProductId].filter(el => el._id != id_Delete_Product);
-          console.log(myProductId);
-        });
+    // Creation du boucle pour co;pter le nombre d'article dans le panier
+    for (p = 0; p < productQuantity.length; p++) {
+      total_Quantity =+ productQuantity[p].value;
+      console.log(total_Quantity);
     }
+    let product_Total_Quantity = document.getElementById('totalQuantity');
+      product_Total_Quantity.textContent = total_Quantity;
+      console.log(product_Total_Quantity);
+    
 	});
 }
+
 
 
 
