@@ -13,6 +13,8 @@ console.log(cart);
 //je recupere l'element HTML qui contiendra mes produits(<section> ID Parent)
 let cartItems = document.getElementById("cart__items");
 
+// Variable pour calculer le prix total de tout les produits dans le panier
+let total_price = 0;
 // On veut creer les produits dans le page panier en creant une boucle for
 
 for(const myProductId in cart) {
@@ -109,16 +111,35 @@ for(const myProductId in cart) {
 		inputQuantity.setAttribute('max', "100");
 		inputQuantity.setAttribute('value', `${productLocalStorage.qty}`);
 		divContentQuantity.appendChild(inputQuantity);
-		// Modificaton de la quantité du produit
-    inputQuantity.addEventListener("input", (event) => {
-      console.log(inputQuantity.value);
-      // On change le quantite du produit courant
-      cart[myProductId].qty = inputQuantity.value;
-      // On ecrase le panier du LocalStorage  avec notre panier modifie
-      localStorage.setItem("cart", JSON.stringify(cart));
-      //on rafraichit la page (pour actualiser la liste des produits et le total)
-      window.location.reload();
-    });
+			// Modificaton de la quantité du produit
+			inputQuantity.addEventListener("input", (event) => {
+			console.log(inputQuantity.value);
+			// On change le quantite du produit courant
+			cart[myProductId].qty = inputQuantity.value;
+			// On ecrase le panier du LocalStorage  avec notre panier modifie
+			localStorage.setItem("cart", JSON.stringify(cart));
+			//on rafraichit la page (pour actualiser la liste des produits et le total)
+			window.location.reload();	
+			});
+
+        // TOTAL QUANTITER
+        
+        let productQuantity = document.getElementsByClassName('itemQuantity');
+        // Variable pour calculer la quanitite total de tout les produits dans le panier
+        let total_Quantity = 0;
+        // Creation d'une boucle pour mutiplier la quantite par le nombre d'article dans le LocalStorage
+        for (let p = 0; p < productQuantity.length; p++){
+        total_Quantity += productQuantity[p].valueAsNumber;
+        }
+        // Affichage de la totalite des articles dans le panier
+        let product_TotalQuantity = document.getElementById('totalQuantity')
+        product_TotalQuantity.textContent = total_Quantity;
+
+          //TOTAL du PRIX de tout le panier
+          let product_Total_Quantity = document.getElementById('totalPrice');
+          // Creation de l'opration pour avoir le prix total de tout les articles dans le panier
+          total_price += productLocalStorage.qty * productLocalStorage.price;
+            product_Total_Quantity.textContent = total_price;
 
 		// Creation de la <div class="cart__item__content__settings__delete"> (Bouton supprimer)
 		let cartContentDelete = document.createElement('div');
@@ -140,24 +161,151 @@ for(const myProductId in cart) {
       // On rafraichit la page (pour actualiser la liste des produits et le total)
       window.location.reload();
     });
-
-    // RECUPERATIONS DE L'ID, TOTAL QUANTITER
-    let productQuantity = document.getElementsByClassName('itemQuantity');
-    let total_Quantity = 0;
-
-    // Creation du boucle pour co;pter le nombre d'article dans le panier
-    for (p = 0; p < productQuantity.length; p++) {
-      total_Quantity =+ productQuantity[p].value;
-      console.log(total_Quantity);
-    }
-    let product_Total_Quantity = document.getElementById('totalQuantity');
-      product_Total_Quantity.textContent = total_Quantity;
-      console.log(product_Total_Quantity);
-    
 	});
 }
+// VALIDATION DES DONNEES DES FORMULAIRES
 
+function formulaire() {
+	let donneesFormulaire = document.querySelector(".cart__order__form");
+	
+	// Creation des RegExp
+	let lettresRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
+	let addresseRegExp = new RegExp("[^A-Za-z0-9]");
+	let mailRegExp = new RegExp(
+	"^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$");
+	
+	// Modification du prénom
+	donneesFormulaire.firstName.addEventListener("change", function () {
+		prenomVerification(this);
+	});
+	
+	// Validation du prénom
+	const prenomVerification = function (prenom) {
+		let prenomMessageErreur = prenom.nextElementSibling;
+		if (lettresRegExp.test(prenom.value)) {
+			prenomMessageErreur.textContent = "";
+		} else {
+			prenomMessageErreur.textContent = "Veuillez renseigner votre prénom";
+		}
+	};
+	
+	// Modification du nom de famille
+	donneesFormulaire.lastName.addEventListener("change", function () {
+		nomVerification(this);
+	});
+	
+	// Validation du nom
+	const nomVerification = function (nom) {
+		let nomMessageErreur = nom.nextElementSibling;
+		if (lettresRegExp.test(nom.value)) {
+			nomMessageErreur.textContent = "";
+		} else {
+			nomMessageErreur.textContent = "Veuillez renseigner votre nom";
+		}
+	};
+	
+	// Modification de l'adresse
+	donneesFormulaire.address.addEventListener("change", function () {
+		adresseVerification(this);
+	});
+	
+	// Validation de l'adresse
+	const adresseVerification = function (adresse) {
+		let adresseMessageErreur = adresse.nextElementSibling;
+		if (addresseRegExp.test(adresse.value)) {
+			adresseMessageErreur.textContent = "";
+		} else {
+			adresseMessageErreur.textContent = "Veuillez renseigner votre adresse";
+		}
+	};
+	
+	// Modification de la ville
+		donneesFormulaire.city.addEventListener("change", function () {
+		villeVerification(this);
+	});
+	
+	// Validation de la ville
+	const villeVerification = function (ville) {
+		villeMessageErreur = ville.nextElementSibling;
+	
+		if (lettresRegExp.test(ville.value)) {
+			villeMessageErreur.textContent = "";
+		} else {
+			villeMessageErreur.textContent = "Veuillez renseigner votre ville";
+		}
+	};
+	
+	// Modification du mail
+		donneesFormulaire.email.addEventListener("change", function () {
+		mailVerification(this);
+		});
+	
+	// Validation de l'email
+	const mailVerification = function (mail) {
+		let mailMessageErreur = mail.nextElementSibling;
+		if (mailRegExp.test(mail.value)) {
+			mailMessageErreur.textContent = "";
+		} else {
+			mailMessageErreur.textContent = "Veuillez renseigner votre email.";
+		}
+	};
+}
+formulaire();
+  
+// Fonction pour l'envoi du formulaire
+function envoiFormulaire() {
+	let boutonCommander = document.querySelector("form");
+  
+	// eclencheur bouton commander
+	boutonCommander.addEventListener("submit", function (event) {
+	  event.preventDefault();
+  
+		// info du formulaire
+	  	let prenom = document.getElementById("firstName");
+	  	let nom = document.getElementById("lastName");
+	  	let adresse = document.getElementById("address");
+	  	let ville = document.getElementById("city");
+	  	let mail = document.getElementById("email");
+  
+		//Construction d'un array depuis le local storage
+		let idProducts = [];
+		for (let i = 0; i < cartJsonLocalStorage.length; i++) {
+			idProducts.push(cartJsonLocalStorage[i]);
+		}
+	
+		const order = {
+			contact: {
+			firstName: prenom.value,
+			lastName: nom.value,
+			address: adresse.value,
+			city: ville.value,
+			email: mail.value,
+			},
+			products: idProducts,
+		};
+		
+		const envoi = {
+			method: "POST",
+			body: JSON.stringify(order),
+			headers: { 
+			'Accept': 'application/json', 
+			'Content-Type': 'application/json'
+			}
+		};
 
-
-
-
+		fetch(`http://localhost:3000/api/products/order`, envoi)
+			.then(function (reponseAPI) {
+			return reponseAPI.json();
+			})
+	
+			.then(function (reponseID) {
+			localStorage.clear();
+			localStorage.setItem("order", reponseID.orderId);
+			document.location.href = "confirmation.html";
+			})
+			.catch(function (erreur) {
+			console.log(erreur);
+			});
+		});
+	}
+	envoiFormulaire();
