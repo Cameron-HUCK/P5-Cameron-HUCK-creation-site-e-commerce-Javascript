@@ -70,6 +70,9 @@ idCart.addEventListener('click', (event) => {
 		if(cart[productCartKey] == undefined) {
 			// Le produit n'est pas déjà dans le panier
 			cart[productCartKey] = productToAdd;
+			let msgALert = `Votre produit est dans le panier`;
+			msgALert= window.confirm(`Votre produit est dans le panier`);
+			console.log(msgALert);
 		}
 		else {
 			// Le produit est déjà dans le panier
