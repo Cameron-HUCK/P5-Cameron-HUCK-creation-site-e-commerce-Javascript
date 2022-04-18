@@ -8,46 +8,46 @@ fetch('http://localhost:3000/api/products')
   .then(function(value) {
     console.log(value);
 
-let products = value;
+    let products = value;
 
-  for (let i = 0; i < products.length; i++) {
+    for (let i = 0; i < products.length; i++) {
 
-  /*L'ID parent*/
-      const productsList = document.getElementById('items');
+    /*L'ID parent*/
+      let item_id = document.getElementById('items');
 
-    /* Lien produit qui conduit vers la page produit / Parent de la balise Article*/
+      /* Lien produit qui conduit vers la page produit / Parent de la balise Article*/
       let productsLink = document.createElement("a");
       productsLink.setAttribute("href", `./product.html?id=${products[i]._id}`);
-      productsList.appendChild(productsLink);
+      item_id.appendChild(productsLink);
       console.log(productsLink);
 
       /* Creation de la Balise HTML Article / Parent de (img, h3 , p) */
-        let productArticle = document.createElement("article");
-        productsLink.appendChild(productArticle);
+      let productArticle = document.createElement("article");
+      productsLink.appendChild(productArticle);
 
-        /* Image des differents produits */
-          let productsImg = document.createElement("img");
-          productsImg.setAttribute("src", products[i].imageUrl);
-          productsImg.setAttribute("alt", products[i].altTxt);
-          productArticle.appendChild(productsImg);
+      /* Image des differents produits */
+      let productsImg = document.createElement("img");
+      productsImg.setAttribute("src", products[i].imageUrl);
+      productsImg.setAttribute("alt", products[i].altTxt);
+      productArticle.appendChild(productsImg);
 
-            /* Creation des titres des produits (h3) avec comme classe "productName" */
+      /* Creation des titres des produits (h3) avec comme classe "productName" */
 
-                let productsName = document.createElement("h3");
-                productsName.classList.add("productName");
-                productsName.textContent = products[i].name;
-                productArticle.appendChild(productsName);
+      let productsName = document.createElement("h3");
+      productsName.classList.add("productName");
+      productsName.textContent = products[i].name;
+      productArticle.appendChild(productsName);
 
-            /* Creation du texte, description des produits */
-                let productsDescription = document.createElement("p");
-                productsDescription.classList.add("productDescription");
-                productsDescription.textContent = products[i].description;
-                productArticle.appendChild(productsDescription);
+      /* Creation du texte, description des produits */
+      let productsDescription = document.createElement("p");
+      productsDescription.classList.add("productDescription");
+      productsDescription.textContent = products[i].description;
+      productArticle.appendChild(productsDescription);
+      } 
+    })
 
-              } 
-            })
+    // Une erreur est survenue
     .catch(function(err) {
       console.log("erreur");
       console.log(err);
-    // Une erreur est survenue
   });

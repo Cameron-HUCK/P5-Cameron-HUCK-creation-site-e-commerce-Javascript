@@ -39,11 +39,14 @@ fetch(`http://localhost:3000/api/products/${productId}`)
 		colors_Select[key] = new Option(element);
 	});
 })
+
+// Une erreur est survenue
 .catch(function(err) {
 	console.log(err);
 });
 
 // Au click sur le bouton "ajout panier ", je veux ajouter mon produit dans le panier
+
 // Ecouter le bouton
 let idCart = document.getElementById('addToCart');
 idCart.addEventListener('click', (event) => {
@@ -71,13 +74,12 @@ idCart.addEventListener('click', (event) => {
 			// Le produit n'est pas déjà dans le panier
 			cart[productCartKey] = productToAdd;
 			let msgALert = `Votre produit est dans le panier`;
-			msgALert= window.confirm(`Votre produit est dans le panier`);
-			console.log(msgALert);
-		}
-		else {
+			msgALert = window.confirm(`Votre produit est dans le panier`);
+		}else {
 			// Le produit est déjà dans le panier
 			cart[productCartKey].qty = parseInt(cart[productCartKey].qty) + parseInt(productToAdd.qty);
 		}
+		// On l'envoie dans le LocalStorage au nom de cart
 		localStorage.setItem("cart", JSON.stringify(cart));
 		console.log(cart);
 	}
