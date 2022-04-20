@@ -1,4 +1,6 @@
-/* Affichage des cartes des produits KANAP sur la page index.html */
+/* Display of KANAP products on the index.html page */
+
+/* Retrieve information with the API */
 fetch('http://localhost:3000/api/products')
   .then(function(res) {
     if (res.ok) {
@@ -12,33 +14,34 @@ fetch('http://localhost:3000/api/products')
 
     for (let i = 0; i < products.length; i++) {
 
-    /*L'ID parent*/
-      let item_id = document.getElementById('items');
+    /* The parent ID */
+      let productParent = document.getElementById('items');
 
-      /* Lien produit qui conduit vers la page produit / Parent de la balise Article*/
+      /* Product link that leads to the product page / Parent of the Article tag */
       let productsLink = document.createElement("a");
       productsLink.setAttribute("href", `./product.html?id=${products[i]._id}`);
-      item_id.appendChild(productsLink);
+      productParent.appendChild(productsLink);
       console.log(productsLink);
 
-      /* Creation de la Balise HTML Article / Parent de (img, h3 , p) */
+      /* Create HTML Tag Article / Parent of (img, h3 , p) */
       let productArticle = document.createElement("article");
       productsLink.appendChild(productArticle);
 
-      /* Image des differents produits */
+      /* Image of the different products */
       let productsImg = document.createElement("img");
       productsImg.setAttribute("src", products[i].imageUrl);
       productsImg.setAttribute("alt", products[i].altTxt);
       productArticle.appendChild(productsImg);
 
-      /* Creation des titres des produits (h3) avec comme classe "productName" */
-
+      
+      /* Creation of product titles (h3) with "productName" as class */
       let productsName = document.createElement("h3");
       productsName.classList.add("productName");
       productsName.textContent = products[i].name;
       productArticle.appendChild(productsName);
 
-      /* Creation du texte, description des produits */
+      
+      /* Create text, product description */
       let productsDescription = document.createElement("p");
       productsDescription.classList.add("productDescription");
       productsDescription.textContent = products[i].description;
@@ -46,7 +49,7 @@ fetch('http://localhost:3000/api/products')
       } 
     })
 
-    // Une erreur est survenue
+    // An error has occurred
     .catch(function(err) {
       console.log("erreur");
       console.log(err);

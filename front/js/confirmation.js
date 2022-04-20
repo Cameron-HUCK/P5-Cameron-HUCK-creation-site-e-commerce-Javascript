@@ -1,18 +1,19 @@
-// Recuperation des objet(commande) dans le local Storage
+// Recovery of objects (command) in the local Storage
 let cart = {};
 let cartJsonLocalStorage = localStorage.getItem("cart");
 
-// Si le panier n'est pas vide
+
+// If the basket is not empty
 if(cartJsonLocalStorage != null) {
 	cart = JSON.parse(cartJsonLocalStorage);
 }
-// Recuperqtion de l'id de la commande dans
+// Retrieve the order id from the URL
 let urlString =  document.location.href;
 let urlObject =  new URL(urlString);
 let search_Id = urlObject.searchParams.get('orderId');
 console.log(urlString);
 
-// Affichage de l'id de la commande.
+// Display the command id
 let confimration_Order = document.getElementById('orderId');
 confimration_Order.textContent = search_Id;
 console.log(confimration_Order);

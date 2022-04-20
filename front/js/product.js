@@ -1,9 +1,8 @@
-// Récupération de l'url de la page et l'ID produit
-let urlString =  document.location.href;
-let urlObject =  new URL(urlString);
-let productId = urlObject.searchParams.get('id');
+// Retrieve the page url and product ID
+getParamUrl();
+let productId = getParamUrl('id');
 
-// Récupération des donnees du produit en provenance de l'API du productID
+// Retrieve product data from the productID API
 fetch(`http://localhost:3000/api/products/${productId}`)
 .then(function(res) {
 	if(res.ok) {
@@ -13,26 +12,26 @@ fetch(`http://localhost:3000/api/products/${productId}`)
 .then(function(value) {
 	let product = value;
 
-	// Integrer / Injecter les donnees recuperees de l'API dans le HTML de la page
+	// Integrate / Inject the data retrieved from the API into the HTML of the page
 
-	// Modifier l'image de la page avec l'image du produit
-	let imgId = document.getElementById ("img_origin");
-	imgId.setAttribute("src", product.imageUrl);
-	imgId.setAttribute("alt", product.altTxt);
+	// Modification the page image with the product image
+	let imgProduct = document.getElementById ("img_origin");
+	imgProduct.setAttribute("src", product.imageUrl);
+	imgProduct.setAttribute("alt", product.altTxt);
 
-	// Modifier le titre de la page avec le nom du produit
-	let title = document.getElementById('title');
-	title.textContent = product.name;
+	// Modification the page title with the product name
+	let titleProduct = document.getElementById('title');
+	titleProduct.textContent = product.name;
 
-	// Modification du prix avec le bon prix de chaque produit
+	// Modification of the price with the correct price of each product
 	let priceProduct = document.getElementById('price');
 	priceProduct.textContent = product.price;
 
-	//Modification de la description de chaque produit
+	//Modification of the description of each product
 	let contentDescription_Product = document.getElementById('description');
 	contentDescription_Product.textContent = product.description;
 
-	// Modification des couleurs proposer de chaque produit en recuperant chaque couleur dans le tableau
+	// Modification of the proposed colors of each product by retrieving each color from the table
 	let colorsProduct = product.colors;
 	let colors_Select = document.getElementById('colors');
 	colorsProduct.forEach(function (element, key) {
@@ -40,20 +39,20 @@ fetch(`http://localhost:3000/api/products/${productId}`)
 	});
 })
 
-// Une erreur est survenue
+// An error has occurred
 .catch(function(err) {
 	console.log(err);
 });
 
-// Au click sur le bouton "ajout panier ", je veux ajouter mon produit dans le panier
+// When the "add basket" button is clicked, I want to add my product to the basket
 
-// Ecouter le bouton
-let idCart = document.getElementById('addToCart');
-idCart.addEventListener('click', (event) => {
-	// Empecher reactualisation de la page au click
+// Listen to the button
+let addButton = document.getElementById('addToCart');
+addButton.addEventListener('click', (event) => {
+	// Prevent page refresh on click
 	event.preventDefault();
 
-	// Récupération des informations du produit à mettre dans le panier
+	// Retrieve product information to put in the cart
 	let qtyProduct = document.getElementById('quantity');
 	let productToAdd = {};
 	productToAdd._id = productId;
@@ -61,25 +60,25 @@ idCart.addEventListener('click', (event) => {
 	productToAdd.color = document.getElementById('colors').value;
 
 	if(productToAdd.qty > 0) {
-		// Je récupère le contenu de mon panier depuis le LocalStorage
-		let cart = JSON.parse(localStorage.getItem("cart")); // Permet de convertir le JSON (string) stocké dans le LocalStorage en objet JavaScript
+		// I retrieve the contents of my basket from the LocalStorage
+		let cart = JSON.parse(localStorage.getItem("cart")); // Allows you to convert the JSON (string) stored in the LocalStorage into a JavaScript object
 		if(cart == null) {
 			cart = {};
 		}
 
-		// Création d'une clef unique produit ID + Couleur
+		// Create a unique product key ID + Color
 		let productCartKey = productToAdd._id+'_'+productToAdd.color;
-		// On regarde si le produit est déjà dans le panier
+		// We check if the product is already in the cart
 		if(cart[productCartKey] == undefined) {
-			// Le produit n'est pas déjà dans le panier
+			// We check if the product is already in the cart 
 			cart[productCartKey] = productToAdd;
 			let msgALert = `Votre produit est dans le panier`;
-			msgALert = window.confirm(`Votre produit est dans le panier`);
+			msgALert = window.alert(`Votre produit est dans le panier`);
 		}else {
-			// Le produit est déjà dans le panier
+			// The product is already in the cart
 			cart[productCartKey].qty = parseInt(cart[productCartKey].qty) + parseInt(productToAdd.qty);
 		}
-		// On l'envoie dans le LocalStorage au nom de cart
+		// We send it to the LocalStorage on behalf of ''cart''
 		localStorage.setItem("cart", JSON.stringify(cart));
 		console.log(cart);
 	}

@@ -1,31 +1,32 @@
-// Recuperation des objet dans le local Storage
+// Retrieval of objects in the local Storage
 let cart = {};
 let cartJsonLocalStorage = localStorage.getItem("cart");
 
-// Si le panier n'est pas vide
+// If the basket is not empty
 if(cartJsonLocalStorage != null) {
 	cart = JSON.parse(cartJsonLocalStorage);
 }
 
-// Quand j'arrive ici, j'ai forcement un tableau dans ma variable cart (vide ou non)
+// When I get here, I necessarily have an array in my cart variable (empty or not)
 console.log(cart);
 
-//je recupere l'element HTML qui contiendra mes produits(<section> ID Parent)
-let cartItems = document.getElementById("cart__items");
+// I retrieve the HTML element that will contain the products (<section> Parent ID)
+let parentCart = document.getElementById("cart__items");
 
-// Variable pour calculer le prix total de tout les produits dans le panier
+// Variable to calculate the total price of all the products in the cart
 let total_price = 0;
 
-// Variable pour calculer la quanitite total de tout les produits dans le panier
+// Variable to calculate the total quantity of all products in the cart
 let total_Quantity = 0;
 
 let lastMyProductId = Object.keys(cart).pop();
 
-// On veut creer les produits dans le page panier en creant une boucle for
+// We want to create the products in the cart page by creating a for loop
 for(const myProductId in cart) {
+
 	let productLocalStorage = cart[myProductId];
 
-	// Fetch pour recuperer (img, nom du produit etc ) ce qu'il y a pas dans le LocalStorage
+	// Fetch to retrieve (img, product name etc) what is not in the LocalStorage
 	fetch(`http://localhost:3000/api/products/${productLocalStorage._id}`)
 	.then(function(res) {
 		if(res.ok) {
@@ -35,52 +36,52 @@ for(const myProductId in cart) {
 	.then(function(value) {
 		let productApi = value;
 
-		// Je transmet ce qui a dans productApi a mon productLocalStorage
+		// I pass what has in 'productApi' to my ''productLocalStorage''
 		productLocalStorage.name = productApi.name;
 		productLocalStorage.price = productApi.price;
 		productLocalStorage.imageUrl = productApi.imageUrl;
 		productLocalStorage.altTxt = productApi.altTxt;
 
-		// ########################################################################################################## CREATION DE LA STRUCTURE HTML
+		// CREATE THE HTML STRUCTURE
 
-		// Creation de la Balise Article et affiliation a son parent "cart__items"(<article> )
+		// Creation of the Article tag and affiliation to its parent "cart__items"(<article> )
 		let dataProductArticle = document.createElement("article");
 
-		// Affiliation d'une classe a article
+		// Affiliation of a class to an article
 		dataProductArticle.classList.add('cart__item')
 		dataProductArticle.setAttribute("data-id", productLocalStorage._id);
 		dataProductArticle.setAttribute("data-color", productLocalStorage.color);
-		cartItems.appendChild(dataProductArticle);
+		parentCart.appendChild(dataProductArticle);
 
-		// Creation de la Balise <div class="cart__item__img"> parent de la la balise <img> et affiliation a son parent "article"
+		// Creation of the tag <div class="cart__item__img"> parent of the tag <img> and affiliation to its parent "article"
 		let imageDiv = document.createElement("div");
 		imageDiv.classList.add('cart__item__img');
 		dataProductArticle.appendChild(imageDiv);
 
-		// Creation de la Balise <img> enfant de la <div class="cart__item__img">
+		// Creation of the <img> tag child of the <div class="cart__item__img">
 		let imagePanier = document.createElement("img");
 		imagePanier.setAttribute("src", productLocalStorage.imageUrl);
 		imagePanier.setAttribute("alt", productLocalStorage.altTxt);
 		imageDiv.appendChild(imagePanier);
 
-		// ########################################################################################################## PARTIE NOM PRODUIT / COULEUR / PRIX
+		// PART PRODUCT NAME / COLOR / PRICE
 
-		// Creation de la <div class="cart__item__content">, Parent contenant les informations de la commande des produits du panier
+		// Creation of the <div class="cart__item__content">, Parent containing the order information for the products in the cart
 		let divContent = document.createElement('div');
 		divContent.classList.add('cart__item__content');
 		dataProductArticle.appendChild(divContent);
 
-		//Creation de la  <div class = "cart__item__content__description"> (parent de la description) qui contient le NOM, couleur et prix du produit
+		//Creation of the <div class = "cart__item__content__description"> (parent of the description) which contains the NAME, color and price of the product
 		let divContentDescription = document.createElement('div');
 		divContentDescription.classList.add('cart__item__content__description');
 		divContent.appendChild(divContentDescription);
 
-		// Creation du H2(nom du produit)
+		// Creation of H2(product name)
 		let titleNameProduct = document.createElement ('h2');
 		titleNameProduct.textContent = `${productLocalStorage.name}`;
 		divContentDescription.appendChild(titleNameProduct);
 
-		// <p> (couleur)
+		// <p> (color)
 		let colorsCartProduct = document.createElement("p");
 		colorsCartProduct.textContent = `${productLocalStorage.color}`;
 		divContentDescription.appendChild(colorsCartProduct);
@@ -90,98 +91,97 @@ for(const myProductId in cart) {
 		priceCartProduct.textContent = `${productLocalStorage.price}€`;
 		divContentDescription.appendChild(priceCartProduct);
 
-		// ########################################################################################################## PARTIE QUANTITÉ
+		// QUANTITY PART
 
-		// Creation de la <div class = "cart__item__content__settings">(Parent 1)
+		// Creation of the <div class = "cart__item__content__settings">(Parent 1)
 		let divContentSettings = document.createElement('div');
 		divContentSettings.classList.add('cart__item__content__settings');
 		dataProductArticle.appendChild(divContentSettings);
 
-		// Creation de la <div class = "cart__item__content__settings__quantity">(Parent <p>QTY :</p> et notre input )
+		// Creation of the <div class = "cart__item__content__settings__quantity">(Parent <p>QTY:</p> and our input )
 		let divContentQuantity = document.createElement('div');
 		divContentQuantity.classList.add('cart__item__content__settings__quantity');
 		divContentSettings.appendChild(divContentQuantity);
 
-		//Creation de la balise <p>Qté : </p>
+		// Create the tag <p>Qté : </p>
 		let QtyCart = document.createElement('p');
 		QtyCart.textContent = "Qté : "
 		divContentQuantity.appendChild(QtyCart);
 
-		//Creation de l'input qui contient la quntite du produit chosiie dans la commande qui ce situe dans le locale storage
+		// Creation of the input which contains the quantity of the product chosen in the order which is located in the local storage
 		let inputQuantity = document.createElement('input');
 		inputQuantity.setAttribute('type', "number");// type = "number"
-		inputQuantity.classList.add('itemQuantity');// affiliation de la class "itemQuantity"
+		inputQuantity.classList.add('itemQuantity');// class affiliation "itemQuantity"
 		inputQuantity.setAttribute('name', "itemQuantity");// name = "itemQuantity"
 		inputQuantity.setAttribute('min', "1");
 		inputQuantity.setAttribute('max', "100");
 		inputQuantity.setAttribute('value', `${productLocalStorage.qty}`);
 		divContentQuantity.appendChild(inputQuantity);
-			// Modificaton de la quantité du produit
+			// Modification of the quantity of the product
 			inputQuantity.addEventListener("input", (event) => {
-			console.log(inputQuantity.value);
-			// On change le quantite du produit courant
-			cart[myProductId].qty = inputQuantity.value;
-			// On ecrase le panier du LocalStorage  avec notre panier modifie
-			localStorage.setItem("cart", JSON.stringify(cart));
-			//on rafraichit la page (pour actualiser la liste des produits et le total)
-			window.location.reload();	
+				// We change the quantity of the current product
+				cart[myProductId].qty = inputQuantity.value;
+				// We overwrite the LocalStorage basket with our modified basket
+				localStorage.setItem("cart", JSON.stringify(cart));
+				// We refresh the page (to refresh the list of products and the total)
+				window.location.reload();	
 			});
 
-        // TOTAL QUANTITER
+        // TOTAL QUANTITY
 
-        // Calcul du nombre total de produits dans le panier
+        // Calculation of the total number of products in the basket
 		total_Quantity+= inputQuantity.valueAsNumber;
        
-        // Calcul du total du panier
+        // Calculation of the cart total
 		total_price += productLocalStorage.qty * productLocalStorage.price;
 
-		// On affiche le nombre total de produit et du panier lors de la dernière boucle
+		// We display the total number of products and the basket during the last loop
 		if (myProductId == lastMyProductId) {
 
-			 // Affichage du nombre total d'articles dans le panier
+			 // Display of the total number of items in the cart
 			 let product_TotalQuantity = document.getElementById('totalQuantity')
 			 product_TotalQuantity.textContent = total_Quantity;
 
-			// Affichage du Prix total du le panier
+			// Display of the total price of the cart
 			let product_Total_Quantity = document.getElementById('totalPrice');
 			product_Total_Quantity.textContent = total_price;
 		}
 
-		// Creation de la <div class="cart__item__content__settings__delete"> (Bouton supprimer)
+		// Creation of the <div class="cart__item__content__settings__delete"> (Delete button)
 		let cartContentDelete = document.createElement('div');
 		cartContentDelete.classList.add("cart__item__content__settings__delete");
 		divContentSettings.appendChild(cartContentDelete);
 
-		// Creation de la balise <p class="deleteItem"> 'Supprimer'
+		// Creation of the <p class="deleteItem"> 'Delete' tag
 		let deleteProduct = document.createElement('p');
 		deleteProduct.classList.add('deleteItem');
 		deleteProduct.textContent = "Supprimer";
 		cartContentDelete.appendChild(deleteProduct);
 
-    	//Supression des articles avec le buttons Supprimer
+    	// Delete articles with the Delete buttons
     	deleteProduct.addEventListener('click', (event) => {
       	event.preventDefault();
-      	//on supprime le produit du LocalStorage
+      	// Delete the product from Local Storage
       	delete cart[myProductId];
-     	// On ecrase la panier du LocalStorage avec notre panier modifier
+     	// We overwrite the LocalStorage basket with our cart modify
       	localStorage.setItem("cart", JSON.stringify(cart));
-      	// On rafraichit la page (pour actualiser la liste des produits et le total)
+      	// We refresh the page (to refresh the list of products and the total)
       	window.location.reload();
     	});
 	});
 }
 
-// VALIDATION DES DONNEES DES FORMULAIRES
+// VALIDATION OF FORMS DATA
 
 function formulaire() {
 	let donneesFormulaire = document.querySelector(".cart__order__form");
 	
-	// Creation des RegExp
+	// Create RegExp
 	let lettresRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
-	let addresseRegExp = new RegExp("^[a-zA-Z0-9 ,.'-]+$");																													// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	let addresseRegExp = new RegExp("^[a-zA-Z0-9 ,.'-]+$");
 	let mailRegExp = new RegExp("^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$");
 	
-	// Modification du prénom
+	// Modification of the first name
 	donneesFormulaire.firstName.addEventListener("change", function () {
 		let prenom = this;
 		let prenomMessageErreur = prenom.nextElementSibling;
@@ -192,7 +192,7 @@ function formulaire() {
 		}
 	});
 	
-	// Modification du nom de famille
+	// Modification of the family name
 	donneesFormulaire.lastName.addEventListener("change", function () {
 		let nom = this;
 		let nomMessageErreur = nom.nextElementSibling;
@@ -203,7 +203,7 @@ function formulaire() {
 		}
 	});
 	
-	// Modification de l'adresse
+	// Modify the address
 	donneesFormulaire.address.addEventListener("change", function () {
 		let adresse = this;
 		let adresseMessageErreur = adresse.nextElementSibling;
@@ -214,8 +214,8 @@ function formulaire() {
 		}
 	});
 	
-	// Modification de la ville
-		donneesFormulaire.city.addEventListener("change", function () {
+	// Modify the city
+	donneesFormulaire.city.addEventListener("change", function () {
 		let ville = this;
 		villeMessageErreur = ville.nextElementSibling;
 			if (lettresRegExp.test(ville.value)) {
@@ -225,7 +225,7 @@ function formulaire() {
 		}
 	});
 
-	// Modification du mail
+	// Modification the mail
 	donneesFormulaire.email.addEventListener("change", function () {
 		let mail = this;
 		let mailMessageErreur = mail.nextElementSibling;
@@ -238,22 +238,22 @@ function formulaire() {
 }
 formulaire();
   
-// Fonction pour l'envoi du formulaire
+// Function for sending the form
 function envoiFormulaire() {
 	let boutonCommander = document.querySelector("form");
   
-	// Enclencheur bouton commander
+	// Trigger command button
 	boutonCommander.addEventListener("submit", function (event) {
 	  event.preventDefault();
   
-		// Info du formulaire
+		// Form info
 	  	let prenom = document.getElementById("firstName");
 	  	let nom = document.getElementById("lastName");
 	  	let adresse = document.getElementById("address");
 	  	let ville = document.getElementById("city");
 	  	let mail = document.getElementById("email");
   
-		//Construction d'un array depuis le local storage
+		//Construction of an array from local storage
 		let idProducts = [];
 		for(const myProductId in cart) {
 			let productLocalStorage = cart[myProductId];
