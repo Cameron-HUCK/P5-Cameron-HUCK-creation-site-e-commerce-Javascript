@@ -8,7 +8,6 @@ fetch('http://localhost:3000/api/products')
     }
   })
   .then(function(value) {
-    console.log(value);
 
     let products = value;
 
@@ -21,7 +20,6 @@ fetch('http://localhost:3000/api/products')
       let productsLink = document.createElement("a");
       productsLink.setAttribute("href", `./product.html?id=${products[i]._id}`);
       productParent.appendChild(productsLink);
-      console.log(productsLink);
 
       /* Create HTML Tag Article / Parent of (img, h3 , p) */
       let productArticle = document.createElement("article");
@@ -47,10 +45,10 @@ fetch('http://localhost:3000/api/products')
       productsDescription.textContent = products[i].description;
       productArticle.appendChild(productsDescription);
       } 
-    })
+  })
 
     // An error has occurred
     .catch(function(err) {
-      console.log("erreur");
-      console.log(err);
+      let messageError = 'Il y a une erreur sur notre page, revenez ultérieurement';
+			messageError = window.alert('Il y a une erreur sur notre page, revenez ultérieurement');
   });

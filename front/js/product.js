@@ -41,7 +41,8 @@ fetch(`http://localhost:3000/api/products/${productId}`)
 
 // An error has occurred
 .catch(function(err) {
-	console.log(err);
+	let messageError = 'Il y a une erreur sur notre page, nous ne trouvons pas le produit';
+	messageError = window.alert('Il y a une erreur sur notre page, nous ne trouvons pas le produit');
 });
 
 // When the "add basket" button is clicked, I want to add my product to the basket
@@ -61,26 +62,27 @@ addButton.addEventListener('click', (event) => {
 
 	if(productToAdd.qty > 0) {
 		// I retrieve the contents of my basket from the LocalStorage
-		let cart = JSON.parse(localStorage.getItem("cart")); // Allows you to convert the JSON (string) stored in the LocalStorage into a JavaScript object
-		if(cart == null) {
-			cart = {};
-		}
-
+		getCart();
+		let cart = getCart();
+		let msgALert = `Le produit a été ajouté au panier`;
+			msgALert = window.alert(`Le produit a été ajouté au panier`);
 		// Create a unique product key ID + Color
 		let productCartKey = productToAdd._id+'_'+productToAdd.color;
 		// We check if the product is already in the cart
 		if(cart[productCartKey] == undefined) {
 			// We check if the product is already in the cart 
 			cart[productCartKey] = productToAdd;
-			let msgALert = `Votre produit est dans le panier`;
-			msgALert = window.alert(`Votre produit est dans le panier`);
 		}else {
 			// The product is already in the cart
 			cart[productCartKey].qty = parseInt(cart[productCartKey].qty) + parseInt(productToAdd.qty);
 		}
-		// We send it to the LocalStorage on behalf of ''cart''
+		// We send it to the LocalStorage on behalf of 'cart'
 		localStorage.setItem("cart", JSON.stringify(cart));
-		console.log(cart);
+		console.log(cart);	
+	}else {
+	// If the user did not put a quantity
+	let msgALert = `Vous n'avez pas indiqué de quantité a votre produit`;
+	msgALert = window.alert(`Vous n'avez pas indiqué de quantité a votre produit`);
 	}
 })
 

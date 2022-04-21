@@ -1,19 +1,11 @@
 // Recovery of objects (command) in the local Storage
-let cart = {};
-let cartJsonLocalStorage = localStorage.getItem("cart");
+getCart();
+let cart = getCart();
 
-
-// If the basket is not empty
-if(cartJsonLocalStorage != null) {
-	cart = JSON.parse(cartJsonLocalStorage);
-}
 // Retrieve the order id from the URL
-let urlString =  document.location.href;
-let urlObject =  new URL(urlString);
-let search_Id = urlObject.searchParams.get('orderId');
-console.log(urlString);
+getParamUrl();
+let orderId = getParamUrl('orderId');
 
 // Display the command id
 let confimration_Order = document.getElementById('orderId');
-confimration_Order.textContent = search_Id;
-console.log(confimration_Order);
+confimration_Order.textContent = orderId;

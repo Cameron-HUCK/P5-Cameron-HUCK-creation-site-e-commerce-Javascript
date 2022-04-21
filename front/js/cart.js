@@ -1,11 +1,6 @@
 // Retrieval of objects in the local Storage
-let cart = {};
-let cartJsonLocalStorage = localStorage.getItem("cart");
-
-// If the basket is not empty
-if(cartJsonLocalStorage != null) {
-	cart = JSON.parse(cartJsonLocalStorage);
-}
+getCart();
+let cart = getCart();
 
 // When I get here, I necessarily have an array in my cart variable (empty or not)
 console.log(cart);
@@ -172,127 +167,7 @@ for(const myProductId in cart) {
 }
 
 // VALIDATION OF FORMS DATA
-
-function formulaire() {
-	let donneesFormulaire = document.querySelector(".cart__order__form");
-	
-	// Create RegExp
-	let lettresRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
-	let addresseRegExp = new RegExp("^[a-zA-Z0-9 ,.'-]+$");
-	let mailRegExp = new RegExp("^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$");
-	
-	// Modification of the first name
-	donneesFormulaire.firstName.addEventListener("change", function () {
-		let prenom = this;
-		let prenomMessageErreur = prenom.nextElementSibling;
-		if (lettresRegExp.test(prenom.value)) {
-			prenomMessageErreur.textContent = "";
-		} else {
-			prenomMessageErreur.textContent = "Veuillez renseigner votre prénom";
-		}
-	});
-	
-	// Modification of the family name
-	donneesFormulaire.lastName.addEventListener("change", function () {
-		let nom = this;
-		let nomMessageErreur = nom.nextElementSibling;
-		if (lettresRegExp.test(nom.value)) {
-			nomMessageErreur.textContent = "";
-		} else {
-			nomMessageErreur.textContent = "Veuillez renseigner votre nom";
-		}
-	});
-	
-	// Modify the address
-	donneesFormulaire.address.addEventListener("change", function () {
-		let adresse = this;
-		let adresseMessageErreur = adresse.nextElementSibling;
-		if (addresseRegExp.test(adresse.value)) {
-			adresseMessageErreur.textContent = "";
-		} else {
-			adresseMessageErreur.textContent = "Veuillez renseigner votre adresse";
-		}
-	});
-	
-	// Modify the city
-	donneesFormulaire.city.addEventListener("change", function () {
-		let ville = this;
-		villeMessageErreur = ville.nextElementSibling;
-			if (lettresRegExp.test(ville.value)) {
-			villeMessageErreur.textContent = "";
-		} else {
-			villeMessageErreur.textContent = "Veuillez renseigner votre ville";
-		}
-	});
-
-	// Modification the mail
-	donneesFormulaire.email.addEventListener("change", function () {
-		let mail = this;
-		let mailMessageErreur = mail.nextElementSibling;
-		if (mailRegExp.test(mail.value)) {
-			mailMessageErreur.textContent = "";
-		} else {
-			mailMessageErreur.textContent = "Veuillez renseigner votre email.";
-		}
-	});
-}
-formulaire();
+validateFormOrder();
   
 // Function for sending the form
-function envoiFormulaire() {
-	let boutonCommander = document.querySelector("form");
-  
-	// Trigger command button
-	boutonCommander.addEventListener("submit", function (event) {
-	  event.preventDefault();
-  
-		// Form info
-	  	let prenom = document.getElementById("firstName");
-	  	let nom = document.getElementById("lastName");
-	  	let adresse = document.getElementById("address");
-	  	let ville = document.getElementById("city");
-	  	let mail = document.getElementById("email");
-  
-		//Construction of an array from local storage
-		let idProducts = [];
-		for(const myProductId in cart) {
-			let productLocalStorage = cart[myProductId];
-			idProducts.push(productLocalStorage._id);
-		}
-		console.log(idProducts);
-
-		const order = {
-			contact: {
-			firstName: prenom.value,
-			lastName: nom.value, 
-			address: adresse.value,
-			city: ville.value,
-			email: mail.value,
-			},
-			products: idProducts,
-		};
-		
-		const envoi = {
-			method: "POST",
-			body: JSON.stringify(order),
-			headers: { 
-			'Accept': 'application/json', 
-			'Content-Type': 'application/json'
-			}
-		};
-
-		fetch(`http://localhost:3000/api/products/order`, envoi)
-			.then(function (reponseAPI) {
-			return reponseAPI.json();
-			})
-	
-			.then(function (reponseID) {
-			localStorage.setItem('cart', '{}');
-			document.location.href = "confirmation.html?orderId="+reponseID.orderId;
-			})
-			.catch(function (erreur) {
-			console.log(erreur);
-			});
-		});
-	}
-	envoiFormulaire();
+sendFormOrder();
