@@ -138,8 +138,13 @@ for(const myProductId in cart) {
 			 product_TotalQuantity.textContent = total_Quantity;
 
 			// Display of the total price of the cart
-			let product_Total_Quantity = document.getElementById('totalPrice');
-			product_Total_Quantity.textContent = total_price;
+			let product_Total_Price = document.getElementById('totalPrice');
+			product_Total_Price.textContent = total_price;
+		} else {
+			let msgALert = `Aucun produit n'a été ajouté au panier`;
+	        msgALert = window.alert(`Aucun produit n'a été ajouté au panier`);
+			product_TotalQuantity.textContent = "0";
+			product_Total_Price.textContent = "0";
 		}
 
 		// Creation of the <div class="cart__item__content__settings__delete"> (Delete button)
@@ -165,9 +170,11 @@ for(const myProductId in cart) {
     	});
 	});
 }
-
 // VALIDATION OF FORMS DATA
 validateFormOrder();
-  
-// Function for sending the form
+// Validating form inputs
+let validated = validateFormOrder();
+// Sending form to server
+if(validated) {
 sendFormOrder();
+}

@@ -40,7 +40,7 @@ function validateFormOrder() {
 
     // Creation des RegExp
     let lettresRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
-    let addresseRegExp = new RegExp("^[a-zA-Z0-9\s\,\''\-]*$");
+    let addresseRegExp = new RegExp("^[a-zA-Z0-9\s,.'-]{3,}$");
     let mailRegExp = new RegExp("^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$");
 
     // Validating firstname
@@ -64,7 +64,7 @@ function validateFormOrder() {
     }
 
     // Validating adresse
-    let adresse = form.adresse;
+    let adresse = form.address;
     let adresseError = adresse.nextElementSibling;
     if(addresseRegExp.test(adresse.value)) {
         adresseError.textContent = "";
@@ -105,13 +105,7 @@ function sendFormOrder() {
     form.addEventListener("submit", function(event) {
         // Cancelling form submission
         event.preventDefault();
-        // Validating form inputs
-        let validated = validateFormOrder();
-        // Sending form to server
-        if(validated) {
-        sendFormOrder();
-        }
-
+        
         // Info du formulaire
         let prenom = document.getElementById("firstName");
         let nom = document.getElementById("lastName");
