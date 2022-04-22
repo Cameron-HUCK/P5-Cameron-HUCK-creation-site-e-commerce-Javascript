@@ -40,7 +40,7 @@ function validateFormOrder() {
 
     // Creation des RegExp
     let lettresRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
-    let addresseRegExp = new RegExp("^[a-zA-Z0-9\s,.'-]{3,}$");
+    let addresseRegExp = new RegExp("^[a-zA-Z0-9\s,'-]*$");
     let mailRegExp = new RegExp("^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$");
 
     // Validating firstname
