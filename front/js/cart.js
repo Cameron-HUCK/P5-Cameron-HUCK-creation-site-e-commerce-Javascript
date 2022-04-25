@@ -1,10 +1,20 @@
 // Retrieval of objects in the local Storage
 getCart();
 let cart = getCart();
-if (cart =! 0) {
-	let msgALert = `Aucun produit n'a été ajouté au panier`;
-	msgALert = window.alert(`Aucun produit n'a été ajouté au panier`);
-}
+
+// Message that says there is no product in the cart
+if ( cart === {}) {
+	let textMessageCart = document.createElement('p');
+	textMessageCart.textContent = 'Aucun produit dans le panier';
+	parentCart.appendChild(textMessageCart);
+	// Display of '0 items' and '0 at total price' if the basket is empty
+		let product_TotalQuantity = document.getElementById('totalQuantity');
+		product_TotalQuantity.textContent = "0";
+
+	   let product_Total_Price = document.getElementById('totalPrice');
+	   product_Total_Price.textContent = "0";
+	}
+
 // When I get here, I necessarily have an array in my cart variable (empty or not)
 console.log(cart);
 
@@ -126,7 +136,7 @@ for(const myProductId in cart) {
 			});
 
         // TOTAL QUANTITY
-
+		
         // Calculation of the total number of products in the basket
 		total_Quantity+= inputQuantity.valueAsNumber;
        
@@ -137,7 +147,7 @@ for(const myProductId in cart) {
 		if (myProductId == lastMyProductId) {
 
 			 // Display of the total number of items in the cart
-			 let product_TotalQuantity = document.getElementById('totalQuantity')
+			 let product_TotalQuantity = document.getElementById('totalQuantity');
 			 product_TotalQuantity.textContent = total_Quantity;
 
 			// Display of the total price of the cart
@@ -168,11 +178,81 @@ for(const myProductId in cart) {
     	});
 	});
 }
-// Validating form inputs
-validateFormOrder();
-let validated = validateFormOrder();
-// Sending form to server
-if(validated) {
-sendFormOrder();
+// Allows to validate form order
+function validateFormOrder() {
+    // Initialisations
+   let form = document.querySelector("form.cart__order__form");
+   let response = true;
+
+    // Creation des RegExp
+    let lettresRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
+    let addresseRegExp = new RegExp("^[a-zA-Z0-9 ,.'-]+$");
+    let mailRegExp = new RegExp("^[a-zA-Z0-9-.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$");
+
+    // Validating firstname
+    let firstname = form.firstName;
+    let firstnameError = firstname.nextElementSibling;
+    if(lettresRegExp.test(firstname.value)) {
+        firstnameError.textContent = "";
+    } else {
+        firstnameError.textContent = "Veuillez corriger votre prénom";
+        response = false;
+    }
+
+    // Validating lastName
+    let lastName = form.lastName;
+    let lastNameError = lastName.nextElementSibling;
+    if(lettresRegExp.test(lastName.value)) {
+        lastNameError.textContent = "";
+    } else {
+        lastNameError.textContent = "Veuillez corriger votre nom";
+        response = false;
+    }
+
+    // Validating adresse
+    let adresse = form.address;
+    let adresseError = adresse.nextElementSibling;
+    if(addresseRegExp.test(adresse.value)) {
+        adresseError.textContent = "";
+    } else {
+        adresseError.textContent = "Veuillez corriger votre adresse";
+        response = false;
+    }
+
+    // Validating city
+    let city = form.city;
+    let cityError = city.nextElementSibling;
+    if(lettresRegExp.test(city.value)) {
+    cityError.textContent = "";
+    } else {
+    cityError.textContent = "Veuillez corriger votre ville";
+    response = false;
+    }
+
+    // Validating email
+    let email = form.email;
+    let emailError = email.nextElementSibling;
+    if(mailRegExp.test(email.value)) {
+        emailError.textContent = "";
+    } else {
+    emailError.textContent = "Veuillez corriger votre email";
+    response = false;
+
+    }
+    // Return response
+    return response;
 }
+
+ // Listen to form submission
+let form = document.querySelector("form.cart__order__form");
+form.addEventListener("submit", function(event) {
+	// Cancelling form submission
+	event.preventDefault();
+	// Validating form inputs
+	let validated = validateFormOrder();
+	// Sending form to server
+	if(validated) {
+	sendFormOrder();
+	}
+});
 
