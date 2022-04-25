@@ -1,5 +1,4 @@
 // Retrieval of objects in the local Storage
-getCart();
 let cart = getCart();
 
 // Message that says there is no product in the cart
@@ -243,6 +242,67 @@ function validateFormOrder() {
     return response;
 }
 
+// Allows to send form order
+function sendFormOrder() {
+
+    // Listen to form submission
+    let form = document.querySelector("form.cart__order__form");
+    form.addEventListener("submit", function(event) {
+        // Cancelling form submission
+        event.preventDefault();
+        
+        // Info du formulaire
+        let prenom = document.getElementById("firstName");
+        let nom = document.getElementById("lastName");
+        let adresse = document.getElementById("address");
+        let ville = document.getElementById("city");
+        let mail = document.getElementById("email");
+
+        // Construction d'un array depuis le local storage
+        let idProducts = [];
+        for(const myProductId in cart) {
+        let productLocalStorage = cart[myProductId];
+        idProducts.push(productLocalStorage._id);
+        }
+        console.log(idProducts);
+
+        // Creating order
+        const order = {
+            contact: {
+                firstName: prenom.value,
+                lastName: nom.value,
+                address: adresse.value,
+                city: ville.value,
+                email: mail.value,
+                },
+            products: idProducts,
+        };
+
+        // Creating object to send to API
+        const envoi = {
+            method: "POST",
+            body: JSON.stringify(order),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        };
+
+        // Sending object to API
+        fetch(`http://localhost:3000/api/products/order`, envoi)
+        .then(function (reponseAPI) {
+            return reponseAPI.json();
+        })
+        .then(function (reponseID) {
+            localStorage.setItem('cart', '{}');
+            document.location.href = "confirmation.html?orderId="+reponseID.orderId;
+        })
+        .catch(function (erreur) {
+            let msgALert = `Erreur, commande non détecter`;
+	        msgALert = window.alert(`Erreur, commande non détecter`);
+        });
+    }
+)}
  // Listen to form submission
 let form = document.querySelector("form.cart__order__form");
 form.addEventListener("submit", function(event) {
