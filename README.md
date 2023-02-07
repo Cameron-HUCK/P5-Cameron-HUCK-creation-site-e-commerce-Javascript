@@ -1,4 +1,5 @@
-# Kanap #
+# Kanap, Réalisation front-end #
+Affichage dynamiques des produits, gestion du panier, formaulaire de contact...
 
 This is the front end and back end server for Project 5 of the Web Developer path.
 
